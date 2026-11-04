@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Weight Predictor{% endblock %}
+
+{% block content %}
+    <h1>Weight predictor</h1>
+    <p class="subtitle">Fill in your stats. Your results update as you type.</p>
+
+    <!-- The form never gets "submitted"; JavaScript reads it on every change -->
+    <form id="predictor" class="card" autocomplete="off">
+        <div class="grid">
+            <label>Age
+                <input type="number" name="age" min="1" step="1" placeholder="20">
+            </label>
+            <label>Sex (for the calorie formula)
+                <select name="sex">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </label>
+            <label>Current weight (lbs)
+                <input type="number" name="weight_lbs" min="1" step="0.1" placeholder="180">
+            </label>
+            <label>Height (inches)
+                <input type="number" name="height_in" min="1" step="0.1" placeholder="70">
+            </label>
+            <label class="full">Activity level
+                <select name="activity_level">
+                    {% for level, description in activities.items() %}
+                        <option value="{{ level }}" {% if level == "moderate" %}selected{% endif %}>
+                            {{ level|capitalize }} ({{ description }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label class="full">Goal weight (lbs)
+                <input type="number" name="goal_weight" min="1" step="0.1" placeholder="170">
+            </label>
+        </div>
+    </form>
+
+    <!-- Filled in by app.js -->
+    <section id="results" class="card" aria-live="polite">
+        <p class="placeholder">Your prediction will show up here.</p>
+    </section>
+
+    <!-- Slider to try any daily deficit or surplus -->
+    <section id="custom" class="card" hidden>
+        <h2>Try your own number</h2>
+        <label for="custom_amount">
+            <span id="custom-label">Calories below maintenance</span>: <strong id="custom-value">500</strong>
+        </label>
+        <input type="range" id="custom_amount" min="100" max="1000" step="50" value="500">
+        <div id="custom-result"></div>
+    </section>
+
+    <p class="note">Estimates use the Mifflin-St Jeor formula and about 3,500 calories per pound. Real results vary from person to person.</p>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}

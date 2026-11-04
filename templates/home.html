@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>What would you like to do?</h1>
+    <p class="subtitle">Pick an option to get started.</p>
+
+    <a class="card menu-option" href="{{ url_for('daily') }}">
+        <h2>View/update daily stats</h2>
+        <p>Log calories eaten and burned, and see today's totals.</p>
+    </a>
+    <a class="card menu-option" href="{{ url_for('predictor') }}">
+        <h2>Weight predictor</h2>
+        <p>Estimate your maintenance calories and how long reaching a goal weight could take.</p>
+    </a>
+{% endblock %}

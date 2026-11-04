@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Stats{% endblock %}
+
+{% block content %}
+    <h1>Daily stats</h1>
+    <p class="subtitle">Log calories as you go. Use a negative number to fix a mistake.</p>
+
+    {% if message %}<p class="warning">{{ message }}</p>{% endif %}
+
+    <form class="card" method="post">
+        <div class="grid">
+            <label>Type
+                <select name="category">
+                    <option value="eaten">Calories eaten</option>
+                    <option value="burned">Calories burned</option>
+                </select>
+            </label>
+            <label>Calories
+                <input type="number" name="amount" step="1" required placeholder="500">
+            </label>
+        </div>
+        <button type="submit">Add</button>
+    </form>
+
+    <section class="card">
+        <h2>Today's totals</h2>
+        <p>Calories eaten: <strong>{{ daily.eaten }}</strong></p>
+        <p>Calories burned: <strong>{{ daily.burned }}</strong></p>
+        <p>Net calories (eaten minus burned): <strong>{{ daily.eaten - daily.burned }}</strong></p>
+        <form method="post" action="{{ url_for('reset_daily') }}">
+            <button type="submit" class="secondary">Reset day</button>
+        </form>
+    </section>
+{% endblock %}
